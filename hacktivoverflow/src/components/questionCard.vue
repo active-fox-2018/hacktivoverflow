@@ -15,8 +15,13 @@
         <div class="card-body">
           <h5 class="card-title"></h5>
           <p class="card-text">{{question.description}}</p>
-          <button class="btn btn-primary">Edit</button>
+          <button class="btn btn-primary" @click="editFormShown=true">Edit</button>
           <button class="btn btn-primary" @click="deleteQuestion()">Delete</button>
+          <question-edit
+            :question="question"
+            @edit-form-shown="editFormShown=$event"
+            v-if="editFormShown"
+          ></question-edit>
         </div>
       </div>
     </div>
@@ -25,9 +30,18 @@
 
 <script>
 import { deleteQuestion } from "@/apis/question.js";
+import QuestionEdit from "./questionEdit.vue";
 
 export default {
   props: ["question"],
+  components: {
+    QuestionEdit
+  },
+  data() {
+    return {
+      editFormShown: false
+    };
+  },
   methods: {
     deleteQuestion() {
       deleteQuestion(this.question.id);

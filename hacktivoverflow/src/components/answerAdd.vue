@@ -7,14 +7,13 @@
       <div class="col-sm-10">
         <div>
           <div class="form-group">
-            <label for="descriptionInput">Description</label>
-            <input
-              type="text"
+            <label for="descriptionInput">Answer</label>
+            <textarea
               class="form-control"
               id="descriptionInput"
-              placeholder="Description"
+              rows="3"
               v-model="descriptionInput"
-            >
+            ></textarea>
           </div>
           <button type="button" class="btn btn-primary" @click="addAnswer()">Answer</button>
         </div>

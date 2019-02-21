@@ -8,23 +8,16 @@
         <div>
           <div class="form-group">
             <label for="titleInput">Title</label>
-            <input
-              type="text"
-              class="form-control"
-              id="titleInput"
-              placeholder="Title"
-              v-model="titleInput"
-            >
+            <input type="text" class="form-control" id="titleInput" v-model="titleInput">
           </div>
           <div class="form-group">
-            <label for="descriptionInput">Description</label>
-            <input
-              type="text"
+            <label for="descriptionInput">Question</label>
+            <textarea
               class="form-control"
               id="descriptionInput"
-              placeholder="Description"
+              rows="3"
               v-model="descriptionInput"
-            >
+            ></textarea>
           </div>
           <button type="button" class="btn btn-primary" @click="addQuestion()">Ask</button>
         </div>
@@ -45,7 +38,6 @@ export default {
   },
   methods: {
     addQuestion() {
-      console.log("woi");
       addQuestion({
         title: this.titleInput,
         description: this.descriptionInput,

@@ -32,6 +32,13 @@ function updateQuestion(id, data) {
 
 function deleteQuestion(id) {
     db.collection("questions").doc(id).delete().then(function () {
+        return db.collection("answers").where("questionId", "==", id).get()
+    }).then(function (querySnapshot) {
+        querySnapshot.forEach(function (doc) {
+            doc.ref.delete();
+        });
+        return Promise.resolve()
+    }).then(function () {
         console.log("Document successfully deleted!");
     }).catch(function (error) {
         console.error("Error removing document: ", error);
