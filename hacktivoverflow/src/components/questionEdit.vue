@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     updateQuestion() {
-      updateQuestion(question.id, {
+      updateQuestion(this.question.id, {
         title: this.titleInput,
         description: this.descriptionInput,
         updatedAt: new Date()

@@ -14,7 +14,8 @@ import { updateAnswer } from "@/apis/answer.js";
 
 export default {
   props: ["answer"],
-  created() {},
+  created() {
+  },
   data() {
     return {
       descriptionInput: ""
@@ -22,7 +23,7 @@ export default {
   },
   methods: {
     updateAnswer() {
-      updateAnswer(answer.id, {
+      updateAnswer(this.answer.id, {
         description: this.descriptionInput,
         updatedAt: new Date()
       });
