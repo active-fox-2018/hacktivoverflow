@@ -18,14 +18,17 @@ import { db } from "@/apis/firebase.js";
 
 export default {
   created() {
-    db.collection("questions").onSnapshot(querySnapshot => {
-      let questionData = [];
-      querySnapshot.forEach(doc => {
-        questionData.push({ id: doc.id, ...doc.data() });
+    db.collection("questions")
+      .orderBy("createdAt", "desc")
+      .limit(100)
+      .onSnapshot(querySnapshot => {
+        let questionData = [];
+        querySnapshot.forEach(doc => {
+          questionData.push({ id: doc.id, ...doc.data() });
+        });
+        this.questionData = questionData;
+        console.log(this.questionData);
       });
-      this.questionData = questionData;
-      console.log(this.questionData);
-    });
   },
   components: {
     QuestionAdd,

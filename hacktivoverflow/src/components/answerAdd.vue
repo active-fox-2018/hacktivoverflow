@@ -16,7 +16,7 @@
               v-model="descriptionInput"
             >
           </div>
-          <button type="button" class="btn btn-primary">Answer</button>
+          <button type="button" class="btn btn-primary" @click="addAnswer()">Answer</button>
         </div>
       </div>
     </div>
@@ -24,11 +24,26 @@
 </template>
 
 <script>
+import { addAnswer } from "@/apis/answer.js";
+
 export default {
+  props: ["question"],
   data() {
     return {
       descriptionInput: ""
     };
+  },
+  methods: {
+    addAnswer() {
+      addAnswer({
+        questionId: this.question.id,
+        description: this.descriptionInput,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        upvoter: [],
+        downvoter: []
+      });
+    }
   }
 };
 </script>

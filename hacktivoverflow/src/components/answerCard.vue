@@ -10,14 +10,25 @@
       </div>
       <div class="col-sm-10">
         <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p
-            class="card-text"
-          >With supporting text below as a natural lead-in to additional content.</p>
+          <h5 class="card-title"></h5>
+          <p class="card-text">{{answer.description}}</p>
           <button class="btn btn-primary">Edit</button>
-          <button class="btn btn-primary">Delete</button>
+          <button class="btn btn-primary" @click="deleteAnswer()">Delete</button>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+import { deleteAnswer } from "@/apis/answer.js";
+
+export default {
+  props: ["answer"],
+  methods: {
+    deleteAnswer() {
+      deleteAnswer(this.answer.id);
+    }
+  }
+};
+</script>
