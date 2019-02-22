@@ -12,7 +12,7 @@
               class="form-control"
               id="descriptionInput"
               rows="3"
-              v-model="descriptionInput"
+              v-model="descriptionInput" required
             ></textarea>
           </div>
           <button type="button" class="btn btn-primary" @click="addAnswer()">Answer</button>

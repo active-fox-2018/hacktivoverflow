@@ -12,8 +12,10 @@
         <div class="card-body">
           <h5 class="card-title"></h5>
           <p class="card-text">{{answer.description}}</p>
-          <button class="btn btn-primary" @click="editFormShown=true">Edit</button>
-          <button class="btn btn-primary" @click="deleteAnswer()">Delete</button>
+          <div>
+            <button class="btn btn-primary" @click="editFormShown=true">Edit</button>
+            <button class="btn btn-primary" @click="deleteAnswer()">Delete</button>
+          </div>
           <answer-edit
             :answer="answer"
             @edit-form-shown="editFormShown=$event"

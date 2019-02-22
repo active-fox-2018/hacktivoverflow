@@ -2,7 +2,7 @@
   <div>
     <div class="form-group">
       <label for="descriptionInput">Answer</label>
-      <textarea class="form-control" id="descriptionInput" rows="3" v-model="descriptionInput"></textarea>
+      <textarea class="form-control" id="descriptionInput" rows="3" v-model="descriptionInput" required></textarea>
     </div>
     <button type="button" class="btn btn-primary" @click="updateAnswer()">Save</button>
     <button type="button" class="btn btn-primary" @click="$emit('edit-form-shown',false)">Cancel</button>
@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-      descriptionInput: ""
+      descriptionInput: this.answer.description
     };
   },
   methods: {
@@ -27,6 +27,7 @@ export default {
         description: this.descriptionInput,
         updatedAt: new Date()
       });
+      this.$emit('edit-form-shown',false)
     }
   }
 };

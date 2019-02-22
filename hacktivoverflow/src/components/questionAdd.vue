@@ -8,7 +8,7 @@
         <div>
           <div class="form-group">
             <label for="titleInput">Title</label>
-            <input type="text" class="form-control" id="titleInput" v-model="titleInput">
+            <input type="text" class="form-control" id="titleInput" v-model="titleInput" required>
           </div>
           <div class="form-group">
             <label for="descriptionInput">Question</label>
@@ -16,8 +16,12 @@
               class="form-control"
               id="descriptionInput"
               rows="3"
-              v-model="descriptionInput"
+              v-model="descriptionInput" required
             ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="tagsInput">Comma separated tags</label>
+            <input type="text" class="form-control" id="tagsInput" v-model="tagsInput" required>
           </div>
           <button type="button" class="btn btn-primary" @click="addQuestion()">Ask</button>
         </div>
@@ -33,7 +37,8 @@ export default {
   data() {
     return {
       titleInput: "",
-      descriptionInput: ""
+      descriptionInput: "",
+      tagsInput: ""
     };
   },
   methods: {
@@ -41,6 +46,7 @@ export default {
       addQuestion({
         title: this.titleInput,
         description: this.descriptionInput,
+        tags: this.tagsInput.split(",").map(e => e.trim()),
         createdAt: new Date(),
         updatedAt: new Date(),
         upvoter: [],

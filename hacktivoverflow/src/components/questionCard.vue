@@ -15,8 +15,19 @@
         <div class="card-body">
           <h5 class="card-title"></h5>
           <p class="card-text">{{question.description}}</p>
-          <button class="btn btn-primary" @click="editFormShown=true">Edit</button>
-          <button class="btn btn-primary" @click="deleteQuestion()">Delete</button>
+          <span class="card-text">Tags :</span>
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              v-for="(tag,index) in question.tags"
+              :key="index"
+            >{{tag}}</button>
+          </div>
+          <div>
+            <button class="btn btn-primary" @click="editFormShown=true">Edit</button>
+            <button class="btn btn-primary" @click="deleteQuestion()">Delete</button>
+          </div>
           <question-edit
             :question="question"
             @edit-form-shown="editFormShown=$event"
