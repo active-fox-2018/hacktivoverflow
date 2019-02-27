@@ -45,11 +45,3 @@ List of Questions  API
 | /questions/downvote/:id | PATCH | token | none | downvote a question |
 | /questions/:id | PUT | token | title:String, description:String, tags:String | update a questio |
 | /questions/:id | DELETE | token | none | delete a question |
-
-
-
-router.post('/', createQuestion, errorHandling)
-router.patch('/upvote/:id', questionValidation, upvote, upvoteQuestion)
-router.patch('/downvote/:id', questionValidation, downvote, downvoteQuestion)
-router.put('/:id', updateQuestion)
-router.delete('/:id', deleteQuestion)
