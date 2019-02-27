@@ -3,8 +3,8 @@
     <div class="container">
       <div class="row container">
         <div class="col-3">
-          <router-link to="/">
-            <h3>The Overflow</h3>
+          <router-link to="/" style="text-decoration:none">
+            <h2>The Overflow</h2>
           </router-link>
         </div>
         <div class="col-6">
@@ -14,11 +14,15 @@
         </div>
         <div class="col-3">
           <router-link to="/login">
-            <button>Log In</button>
+            <button v-if="this.isLogin == false">Log In</button>
           </router-link>
           <router-link to="/register">
-            <button>Sign Up</button>
+            <button v-if="this.isLogin == false">Sign Up</button>
           </router-link>
+          <router-link to="/my-questions">
+            <button v-if="this.isLogin == true">My</button>
+          </router-link>
+            <button @click="logout()" v-if="this.isLogin == true">Log Out</button>
         </div>
       </div>
     </div>
@@ -26,7 +30,29 @@
 </template>
 
 <script>
-export default {};
+import { mapState, mapActions } from "vuex"
+import alertify from 'alertifyjs'
+
+export default {
+  data () {
+    return {
+
+    }
+  },
+  methods: {
+    logout () {
+      localStorage.clear()
+      this.$store.commit('mutateIsLogin', false)
+      this.$store.commit('mutateWatchTags', [])
+      this.$router.push('/')
+      alertify.success('Thank You, Have a nice day!')
+    }
+  },
+  computed: mapState(['isLogin']),
+  created () {
+    this.$store.dispatch('checkLoginStatus')
+  }
+};
 </script>
 
 <style>

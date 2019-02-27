@@ -1,0 +1,92 @@
+.tag {
+    background: rgb(0, 141, 184);
+    color: white;
+    font-size: 12px;
+    border-radius: 2px;
+    border: none;
+}
+
+nav {
+    border-top: 3px solid orange;
+    background: rgb(255, 255, 255);
+    box-shadow: 1px 1px 10px rgb(199, 199, 199);
+}
+
+
+
+nav h2 {
+    color: orange;
+    text-decoration: none;
+    font-family: 'Great Vibes', cursive;
+
+}
+
+nav h3:hover {
+    text-shadow: 1px 2px 5px rgb(224, 185, 112);
+    text-decoration: none;
+}
+
+nav input {
+    border: none;
+    border: 1px solid orange;
+    border-radius: 2px;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 16px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+nav button {
+    width: 80px;
+    font-family: 'Titillium Web', sans-serif;
+    border: none;
+    color: white;
+    border-radius: 2px;
+    background: orange;
+    margin-right: 5px;
+}
+
+nav button:hover {
+    box-shadow: 2px 3px 10px orange;
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 2px;
+}
+
+
+.button {
+    color: rgb(0, 141, 184);
+    font-family: 'Titillium Web', sans-serif;
+
+}
+
+.button:hover {
+    box-shadow: 1px 2px 10px rgb(0, 141, 184);
+    background: rgb(0, 141, 184);
+    color: whitesmoke;
+    border: 1px solid rgb(255, 255, 255);
+}
+
+.card {
+    margin-top: 5%;
+}
+
+.card h5 {
+    font-family: 'Titillium Web', sans-serif;
+}
+
+.card-img {
+    border-radius: 0px;
+}
+
+.login form {
+    height: 100%;
+}
+
+.login form input {
+    width: 100%;
+    margin-bottom: 10px;
+    border: none;
+    background: rgb(255, 216, 143);
+    padding: 5px;
+    font-family: 'Titillium Web', sans-serif;
+}

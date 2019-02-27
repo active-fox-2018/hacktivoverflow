@@ -17,6 +17,11 @@ const questionSchema = new Schema({
     tags: [],
     upvote: [{type: Schema.Types.ObjectId, ref: 'User'}],
     downvote: [{type: Schema.Types.ObjectId, ref: 'User'}],
+    answerId: [{type: Schema.Types.ObjectId, ref: 'Answer'}],
+    votes: {
+        type: Number,
+        default: 0
+    }
 }, {timestamps: true})
 
 questionSchema.pre('save', function(next) {
@@ -25,6 +30,11 @@ questionSchema.pre('save', function(next) {
     next()
 })
 
+questionSchema.post('findOneAndUpdate', function(result, next) {
+    result.votes = result.upvote.length - result.downvote.length
+    result.save()
+    next()
+})
 
 const Question = mongoose.model('Question', questionSchema)
 

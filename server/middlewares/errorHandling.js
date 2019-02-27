@@ -26,6 +26,9 @@ function errorHandling(req, res) {
                 errors.push(req.error.question.errors.description.message)
             }
         }
+    } else if (req.error.verify) {
+        console.log(req.error)
+        errors.push(req.error.verify.msg)
     }
     res.status(500).json(errors)
 }

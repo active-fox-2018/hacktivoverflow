@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <h3>Ask a question</h3>
+    <h3>Edit question</h3>
     <div class="row">
       <div class="col-8">
-        <form @submit.prevent="postQuestion()">
+        <form @submit.prevent="updateQuestion()">
           <div class="form-group">
             <label><strong>Title</strong></label>
             <input v-model="title" type="text" class="form-control" placeholder="What's your programming question? Be Specific">
@@ -24,7 +24,7 @@
               </div>
             </button>
           </div>
-          <button type="submit" class="btn btn-primary">Post Your Question</button>
+          <button type="submit" class="btn btn-primary">Update Question</button>
         </form>
       </div>
       <div class="col-4">
@@ -57,31 +57,50 @@ export default {
   components: {
   },
   methods: {
-    postQuestion () {
-      let data = {
-        title: this.title,
-        description: this.description,
-        tags: this.tags
-      }
-      this.$store
-                .dispatch('postQuestion', data)
-                .then(_ => {
-                  if( _ !== true ) {
-                    console.log(_)
-                    // alert(_.data[0])
-                  } else {
-                    this.title = ''
-                    this.description = ''
-                    this.tags = []
-                    alertify.success('Thank You For Posting New Question')
-                  }
-                })
+    updateQuestion () {
+      api({
+        url: `questions/${this.$route.params.id}`,
+        method: 'put',
+        headers: {
+          token: localStorage.token
+        },
+        data: {
+          title: this.title,
+          description: this.description,
+          tags: this.tags
+        }
+      })
+      .then(({ data }) => {
+        console.log(data)
+        this.$store.commit('mutateUpdateQuestions', data)
+        this.$store.commit('mutateUpdateUserQuestions', data)
+        this.$router.push('/my-questions')
+      })
+      .catch((err) => {
+        console.log(err)
+      });
     },
-    addTags() {
+    addTags () {
       this.tags.push(this.tag)
       this.tag = ''
     },
-    removeTag(tag) {
+    findQuestion () {
+      api({
+        url: `questions/${this.$route.params.id}`,
+        method: 'get',
+        headers: {
+          token: localStorage.token
+        }
+      })
+      .then(({ data }) => {
+        this.title = data.title
+        this.description = data.description
+        this.tags = data.tags
+      }).catch((err) => {
+        console.log(err)
+      });
+    },
+    removeTag (tag) {
       let newTags = this.tags.filter(el => {
         return el !== tag
       })
@@ -89,10 +108,7 @@ export default {
     }
   },
   created () {
-    if(!localStorage.token) {
-      alertify.warning('Please Login First')
-      this.$router.push('/login')
-    }
+    this.findQuestion ()
   }
 }
 </script>

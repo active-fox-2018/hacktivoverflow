@@ -28,7 +28,8 @@ const userSchema = new Schema({
         type: String,
         required: true,
         minlength: [5, 'min password length are 5 character']
-    }
+    },
+    tags: []
 })
 
 userSchema.pre('save', function(next) {

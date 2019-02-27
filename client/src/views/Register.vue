@@ -40,25 +40,21 @@ export default {
         email: this.email,
         password: this.password
       }
-      this.$store.dispatch('register', data)
-      this.name = ''
-      this.email = ''
-      this.password = ''
-
-      // this.$store.dispatch('register')
+      this.$store
+                .dispatch('register', data)
+                .then(_ => {
+                  if( _ !== true ) {
+                    console.log(_)
+                    // alert(_.data[0])
+                  } else {
+                    this.name = ''
+                    this.email = ''
+                    this.password = ''
+                    console.log(_)
+                  }
+                })
     }
-  },
-  // computed: {
-  //   name () {
-  //     return this.$store.state.formUser.name
-  //   },
-  //   email () {
-  //     return this.$store.state.formUser.email
-  //   },
-  //   password () {
-  //     return this.$store.state.formUser.password
-  //   }
-  // }
+  }
 }
 </script>
 

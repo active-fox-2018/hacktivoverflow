@@ -26,6 +26,26 @@ export default new Router({
       path: '/question',
       name: 'question',
       component: () => import('./views/Question.vue')
+    },
+    {
+      path: '/edit-question/:id',
+      name: 'editQuestion',
+      component: () => import('./views/EditQuestion.vue')
+    },
+    {
+      path: '/question-detail/:id',
+      name: 'questionDetail',
+      component: () => import('./views/QuestionDetails.vue')
+    },
+    {
+      path: '/my-questions',
+      name: 'myQuestions',
+      component: () => import('./views/UserQuestion.vue')
+    },
+    {
+      path: '/questions/tag/:tag',
+      name: 'tagged',
+      component: () => import('./views/Tagged.vue')
     }
   ]
 })

@@ -26,9 +26,22 @@ module.exports = {
                 res.status(500).json({msg: 'internal server error'})
             })
     },
+    findAllUserQuestions: (req, res) => {
+        Question
+            .find({userId: ObjectId(req.current_user._id)})
+            .populate('userId')
+            .then((result) => {
+                // console.log(re)
+                res.status(200).json(result)
+            }).catch((err) => {
+                res.status(500).json({msg: 'Internal Server Error'})
+            });
+    },
     findOne: (req, res) => {
         Question
             .findById(req.params.id)
+            .populate('userId')
+            .populate('answerId')
             .then(question => {
                 res.status(200).json(question)
             })
@@ -39,7 +52,7 @@ module.exports = {
     },
     updateQuestion: (req, res) => {
         Question
-            .findOneAndUpdate({_id: ObjectId(req.params.id)}, req.body.option, {new: true})
+            .findOneAndUpdate({_id: ObjectId(req.params.id)}, req.body, {new: true})
             .then(updated => {
                 res.status(200).json(updated)
             })
@@ -57,5 +70,27 @@ module.exports = {
                 console.log(err)
                 res.status(500).json({msg: 'internal server error'})
             })
+    },
+    upvoteQuestion: (req, res, next) => {
+        Question
+            .findOneAndUpdate({_id: ObjectId(req.params.id)}, {$set: {upvote: req.upvote, downvote: req.downvote}}, {new: true})
+            .then((result) => {
+                res.status(200).json(result)
+            })
+            .catch((err) => {
+                console.log(err)
+                res.status(500).json({msg: 'internal server error'})
+            });
+    },
+    downvoteQuestion: (req, res, next) => {
+        Question
+            .findOneAndUpdate({_id: ObjectId(req.params.id)}, {$set: {downvote: req.downvote, upvote: req.upvote,}}, {new: true})
+            .then((result) => {
+                res.status(200).json(result)
+            })
+            .catch((err) => {
+                console.log(err)
+                res.status(500).json({msg: 'internal server error'})
+            });
     }
 }
