@@ -1,8 +1,8 @@
-const { Tags } = require('../models')
+const { Tag } = require('../models')
 
 module.exports = {
     create(req, res) {
-        Tags
+        Tag
             .create({text: req.body.text})
             .then(tag =>{
                 res.status(201).json(tag)
@@ -16,7 +16,7 @@ module.exports = {
             })
     },
     getAll(req, res) {
-      Tags
+      Tag
           .find()
           .then(tags => {
               res.status(200).json(tags)

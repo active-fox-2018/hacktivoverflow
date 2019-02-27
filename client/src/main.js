@@ -3,8 +3,10 @@ import './plugins/vuetify'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import wysiwyg from "vue-wysiwyg"
 
 Vue.config.productionTip = false
+Vue.use(wysiwyg, {})
 
 new Vue({
   router,

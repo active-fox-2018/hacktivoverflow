@@ -6,7 +6,7 @@ const answerSchema = new Schema({
     questionId: { type: Schema.Types.ObjectId, ref: 'Question' },
     title: {
         type: String,
-        required: [true, 'title required']
+        // required: [true, 'title required']
     },
     description: {
         type: String,
@@ -14,9 +14,13 @@ const answerSchema = new Schema({
     },
     votes: [{ userId: {type: Schema.Types.ObjectId, ref: 'User'}, status: String }],
     updatedAt: {
-      type: Date,
-      default: new Date
+      type: Date
     }
+})
+
+answerSchema.pre('save', function(next) {
+    this.updatedAt = new Date
+    next()
 })
 
 const Answer = mongoose.model('Answer', answerSchema)

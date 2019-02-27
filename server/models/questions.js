@@ -15,9 +15,13 @@ const questionSchema = new Schema({
     answers: [{ answerId: {type: Schema.Types.ObjectId, ref: 'Answer'} }],
     tags: [],
     updatedAt: {
-      type: Date,
-      default: new Date
+      type: Date
     }
+})
+
+questionSchema.pre('save', function(next) {
+    this.updatedAt = new Date
+    next()
 })
 
 const Question = mongoose.model('Question', questionSchema)

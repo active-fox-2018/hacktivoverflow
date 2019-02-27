@@ -2,10 +2,10 @@ const { Question } = require('../models')
 
 module.exports = {
     create(req, res) {
-        let { title, description } = req.body
+        let { title, description, tags } = req.body
         let newQuestion = {
           userId: req.user._id,
-          tags: req.body.tags,
+          tags,
           title,
           description
         }
@@ -25,7 +25,7 @@ module.exports = {
     getOne(req, res) {
         Question
             .findById(req.params.questionId)
-            .populate('userId')
+            // .populate('userId')
             .populate('answers.answerId')
             .then(question => {
                 res.status(200).json(question)
@@ -41,8 +41,9 @@ module.exports = {
     getAll(req, res) {
         Question
             .find()
-            .populate('userId')
+            // .populate('userId')
             .populate('answers.answerId')
+            .sort({updatedAt: 'desc'})
             .then(questions => {
                 res.status(200).json(questions)
             })
@@ -55,11 +56,12 @@ module.exports = {
             })
     },
     update(req, res) {
-        let { title, description } = req.body
+        let { title, description, tags } = req.body
         let newQuestion = {
-            title: title,
-            description: description,
-            tags: req.body.tags
+            title,
+            description,
+            tags,
+            updatedAt: new Date
         }
         Question
             .findByIdAndUpdate(req.params.questionId, newQuestion, { new: true })

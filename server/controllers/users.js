@@ -78,5 +78,19 @@ module.exports = {
                     err: err
                 })
             })
+    },
+    updateTags(req, res) {
+        User
+            .findOneAndUpdate({_id: req.user._id}, {tags: req.body.tags})
+            .then(user => {
+                res.status(200).json(user.tags)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({
+                    msg: 'internal server error',
+                    err: err
+                })
+            })
     }
 }

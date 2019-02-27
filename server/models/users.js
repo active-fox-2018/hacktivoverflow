@@ -37,7 +37,8 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: [true, 'password required']
-    }
+    },
+    tags: []
 })
 
 userSchema.pre('save', function(next) {

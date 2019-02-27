@@ -25,6 +25,22 @@ module.exports = {
                 })
             })
     },
+    getOne(req, res) {
+        Answer
+            .findById(req.params.answerId)
+            // .populate('userId')
+            .populate('answers.answerId')
+            .then(answer => {
+                res.status(200).json(answer)
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({
+                    msg: "Internal server error",
+                    err: err
+                })
+            })
+    },
     update(req, res) {
         let { title, description } = req.body
         let newAnswer = {

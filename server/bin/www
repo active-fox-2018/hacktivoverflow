@@ -8,11 +8,30 @@ var app = require('../app');
 var debug = require('debug')('server:server');
 var http = require('http');
 const mongoose = require('mongoose')
+const kue = require('kue')
+  , cron = require('node-cron')
+  , queue = kue.createQueue()
+  , everyMonday = '0 10 * * 1'
+  , mailer = require('../helpers/nodemailer')
+  , {createMail} = require('../helpers')
+
 mongoose.connect('mongodb://localhost:27017/HacktivOverflow', {useNewUrlParser: true})
 
 /**
  * Get port from environment and store in Express.
  */
+
+kue.app.listen(3030, function() {
+  console.log('kue listen on port: 3030');
+})
+
+cron.schedule(everyMonday, () => {
+  createMail()
+})
+
+queue.process('sendEmail', (job, done) => {
+  mailer(job.data, done)
+})
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
