@@ -1,7 +1,6 @@
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const { comparePass } = require('../helpers')
-const mongoose = require('mongoose')
 
 class Controller {
     static create (req, res) {
@@ -70,7 +69,7 @@ class Controller {
 
     static update (req, res) {
         let tags = req.body.tags
-
+        req.currentUser.useOldPassword = true
         req.currentUser.set({ tags })
         req.currentUser.save()
             .then(data => {

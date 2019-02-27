@@ -1,7 +1,7 @@
 <template>
     <div>
         <md-toolbar >
-            <h1 class="md-title click-able" style="flex: 1" @click="home">ActiveOverflow</h1>
+            <h1 class="md-title click-able" style="flex: 1" @click="home"><img src="https://dewey.tailorbrands.com/production/brand_version_mockup_image/147/1733118147_c583c0e5-3c54-4365-a7a5-7eeb99beaccf.png?cb=1551187499" alt="Active overflow" ></h1>
             <b-form-input style="flex: 2" class="search-bar" v-model="search" @keyup="filter" type="text" placeholder="search" />
 
             <router-link v-if="user" :to="{ name: 'ask' }">
@@ -12,7 +12,7 @@
                 <md-button md-menu-trigger><md-icon>person</md-icon></md-button>
                 <md-menu-content class="click-able">
                     <div v-if="user">
-                        <md-menu-item class="option">Dashboard</md-menu-item>
+                        <md-menu-item @click="$store.commit('filterQues', user._id)" class="option">Dashboard</md-menu-item>
                         <md-menu-item @click.prevent="logout" class="option">Logout</md-menu-item>
                     </div>
                     <div v-else>

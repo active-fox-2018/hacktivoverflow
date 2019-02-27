@@ -42,10 +42,10 @@ var userSchema = new Schema({
 })
 
 userSchema.pre('save', function (next) {
-    if (this.password) {
+    if (!this.hasOwnProperty('useOldPassword')) {
         this.password = genPass(this.password)
     }
-    next()
+    next();
 })
 
 var User = mongoose.model('User', userSchema)

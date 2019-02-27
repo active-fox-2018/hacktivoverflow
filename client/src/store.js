@@ -8,7 +8,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: null,
-    allQuestions: []
+    allQuestions: [],
+    jobs: null
   },
   mutations: {
     setUser (state, data) {
@@ -28,8 +29,11 @@ export default new Vuex.Store({
     filterQues (state, query) {
       let q = new RegExp(query.toLowerCase())
       state.allQuestions = state.allQuestions.filter(function (el) {
-        return el.title.toLowerCase().match(q) || el.tags.join(' ').toLowerCase().match(q)
+        return el.title.toLowerCase().match(q) || el.tags.join(' ').toLowerCase().match(q) || String(el.user._id) === String(query)
       })
+    },
+    setJobs (state, payload) {
+      state.jobs = payload
     }
   },
   actions: {
@@ -185,6 +189,25 @@ export default new Vuex.Store({
           } else {
             alertify.error(`Ooopss something went wrong!`)
           }
+        })
+    },
+    getJobs ({ commit }, query) {
+      let params = {}
+      if (query) {
+        params = {
+          search: query
+        }
+      }
+      api({
+        method: 'get',
+        url: `/github`,
+        params
+      })
+        .then(({ data }) => {
+          commit('setJobs', data)
+        })
+        .catch(err => {
+          console.log(err.response)
         })
     }
   }

@@ -105,3 +105,11 @@
     -webkit-transition:  box-shadow .3s ease-out;
        box-shadow: .8px .9px 3px rgb(141, 138, 138);
 }
+
+.crop { 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    width: 100%; 
+    line-height:20px;
+    height: 60px;
+}

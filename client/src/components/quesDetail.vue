@@ -104,8 +104,7 @@ export default {
   name: 'quesDetail',
   data () {
     return {
-      ques: {
-      },
+      ques: {},
       answers: 0,
       description: '',
       title: ''

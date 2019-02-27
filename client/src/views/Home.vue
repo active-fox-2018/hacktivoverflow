@@ -8,10 +8,8 @@
       <quesDetail v-else />
     </div>
     <div class="col-3 right-bar mt-3 mr-4" v-if="$route.name !== 'quesDetail'">
-      <watchedTag />
-      <div class="row border border-dark watched-tag mt-4">
-          github job
-      </div>
+      <watchedTag v-if="user"/>
+      <githubJobs />
     </div>
   </div>
 </template>
@@ -20,15 +18,22 @@
 import questionList from '@/components/questionCard.vue'
 import quesDetail from '@/components/quesDetail.vue'
 import watchedTag from '@/components/watchedTag.vue'
+import githubJobs from '@/components/githubJob.vue'
+import { mapState } from 'vuex'
+
 export default {
   name: 'home',
   components: {
     questionList,
     quesDetail,
-    watchedTag
+    watchedTag,
+    githubJobs
   },
   created () {
     this.$store.dispatch('getAllQuestions')
+  },
+  computed: {
+    ...mapState(['user'])
   }
 }
 </script>

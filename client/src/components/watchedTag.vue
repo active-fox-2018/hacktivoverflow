@@ -47,9 +47,8 @@ export default {
       this.temp = ''
     },
     remove (i) {
-      // console.log(i, '=========')
       let tags = this.user.tags
-      // console.log(tags.splice(i, 1), '++++++++')
+      tags.splice(i, 1)
       this.$store.dispatch('updateUser',tags)
     },
     filter (query) {

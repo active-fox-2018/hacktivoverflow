@@ -12,7 +12,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var questionRouter = require('./routes/question')
 var answerRouter = require('./routes/answer')
-
+var githubController = require('./controllers/githubCon')
 var app = express();
 
 require('dotenv').config()
@@ -43,7 +43,12 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/questions', questionRouter)
 app.use('/answers', answerRouter)
-
+app.get('/github', githubController)
+app.use('/*', (req, res) => {
+  res.status(404).json({
+    msg: `Route not found`
+  })
+})
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
