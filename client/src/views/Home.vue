@@ -1,7 +1,6 @@
 <template>
   <div class="home row">
     <div class="col-2 left-bar">
-      smdkmdmfmo
     </div>
     <div class="col ">
       <questionList v-if="$route.name !== 'quesDetail'"/>

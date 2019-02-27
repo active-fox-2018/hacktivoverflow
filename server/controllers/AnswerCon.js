@@ -1,5 +1,6 @@
 const Answer = require('../models/Answer')
 const ObjId = require('mongoose').Types.ObjectId
+const Question = require('../models/Question')
 
 class Controller {
     static read (req, res) {
@@ -32,6 +33,9 @@ class Controller {
             }
 
             Answer.create(answer)
+                .then(created => {
+                    return created.populate('user').populate('question').populate('upvotes').populate('downvotes').execPopulate()
+                })
                 .then(data => {
                     res.status(201).json(
                         data
@@ -53,20 +57,11 @@ class Controller {
         } else {
             let title = req.body.title
             let description = req.body.description
-
-            // if (String(req.currentAnswer.user._id) !== String(req.currentUser._id)) {
-            //     title = req.currentAnswer.title
-            //     description = req.currentAnswer.description
-            // }
             let answer = {
                 title,
                 description,
-                // upvotes: req.body.upvotes,
-                // downvotes: req.body.downvotes
             }
-
-            req.currentAnswer.set(answer)
-            req.currentAnswer.save()
+            Answer.findOneAndUpdate({ _id: ObjId(req.currentAnswer._id) }, { $set: answer }, { new: true })
                 .then(data => {
                     res.status(200).json(
                         data
@@ -80,6 +75,9 @@ class Controller {
         }
     }
 
+    static findOne (req, res) {
+        res.status(200).json(req.currentAnswer)
+    }
 
     static upvotes (req, res) {
         let checkUp = req.currentAnswer.upvotes.map(function (e) { return String(e._id) }).indexOf(String(req.currentUser._id))
@@ -130,6 +128,9 @@ class Controller {
     static delete (req, res) {
         req.currentAnswer.remove()
             .then(data=> {
+                return Question.findOneAndUpdate({ _id: ObjId(req.currentAnswer.question)}, { $pull: { answer: ObjId(req.currentAnswer._id) } })
+            })
+            .then(data => {
                 res.status(200).json(data)
             })
             .catch(err => {

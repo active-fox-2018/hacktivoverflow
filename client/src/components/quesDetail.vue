@@ -59,9 +59,17 @@
                 </h2>
             </div>
             <div class="col" style="overflow-y: scroll; height: 50vh;">
-                <h2 class="row">
+              <div class="row">
+                <h2 class="col">
                     {{ ans.title }}
                 </h2>
+                <div class="col-2 ml-5 text-right" v-if="user && ans.user">
+                  <router-link style="color: black;" :to="{ name: 'editAns', params: { id: ans._id}}">
+                    <i v-if="user._id === ans.user._id" class="click-able material-icons mx-3">edit</i>
+                  </router-link>
+                    <i v-if="user._id === ans.user._id" @click="deleteAns(ans._id, i)" class="click-able material-icons mx-3"> delete </i>
+                </div>
+              </div>
                 <hr>
                 <div class="row" v-html="ans.description">
                 </div>
@@ -76,22 +84,8 @@
         </div>
 
     </div>
-
     <!-- FORM ANSWER -->
-    <div style="background-color: white;" class="p-2 mt-5 ml-3 mb-5 row mr-4">
-        <form @submit.prevent="answer" style="width: 100%;">
-            <h3>
-                Your answer:
-            </h3>
-             <md-field>
-                <label>Title</label>
-                <md-input v-model="title"></md-input>
-            </md-field>
-            <wysiwyg v-model="description" />
-            <md-button type="submit" class="md-raised float-right" style="background-color: #efefef">answer</md-button>
-        </form>
-    </div>
-
+    <answerForm @answer="pushAnsw" />
 </div>
 </template>
 
@@ -100,8 +94,13 @@ import api from '@/api/my.js'
 import alertify from 'alertifyjs'
 import swal from 'sweetalert'
 import { mapState } from 'vuex'
+import answerForm from '@/components/answerForm.vue'
+
 export default {
   name: 'quesDetail',
+  components: {
+    answerForm
+  },
   data () {
     return {
       ques: {},
@@ -162,46 +161,6 @@ export default {
           }
         })
     },
-    upAnsw (id) {
-        api({
-            method: 'put',
-            url: `/answers/${id}/up`,
-            headers: {
-                token: localStorage.token
-            }
-        })
-            .then(({ data }) => {
-                this.getAnswer()
-            })
-             .catch(err => {
-                console.log(err.response)
-                if (err.response.data.msg) {
-                    alertify.error(`${err.response.data.msg}`)
-                } else {
-                    alertify.error(`Oopss something went wrong!`)
-                }
-            })
-    },
-    downAnsw (id) {
-        api({
-            method: 'put',
-            url: `/answers/${id}/down`,
-            headers: {
-                token: localStorage.token
-            }
-        })
-            .then(({ data }) => {
-                this.getAnswer()
-            })
-             .catch(err => {
-                console.log(err.response)
-                if (err.response.data.msg) {
-                    alertify.error(`${err.response.data.msg}`)
-                } else {
-                    alertify.error(`Oopss something went wrong!`)
-                }
-            })
-    },
     getAnswer () {
       api({
         method: 'get',
@@ -219,32 +178,6 @@ export default {
             alertify.error(`Oopss something went wrong!`)
           }
         })
-    },
-    answer () {
-        api({
-            method: 'post',
-            url: `/answers/${this.$route.params.id}`,
-            headers: {
-                token: localStorage.token
-            },
-            data: {
-                title: this.title,
-                description: this.description
-            }
-        })
-            .then(({ data }) => {
-                this.title = ''
-                this.description = ''
-                this.answers.unshift(data)
-            })
-            .catch(err => {
-                console.log(err.response)
-                if (err.response.data.msg) {
-                    alertify.error(`${err.response.data.msg}`)
-                } else {
-                    alertify.error(`Oopss something went wrong!`)
-                }
-            })
     },
     deleteQues () {
       swal({
@@ -275,6 +208,37 @@ export default {
             })
         }
       })
+    },
+    pushAnsw (data) {
+      this.answers.unshift(data)
+    },
+    deleteAns (id, i) {
+      swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this imaginary file!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+            api({
+              method: 'delete',
+              url: `/answers/${id}`,
+              headers: {
+                token: localStorage.token
+              }
+            })
+              .then(({ data }) => {
+                this.answers.splice(i, 1)
+                alertify.success(`Success delete answer`)
+              })
+              .catch(err => {
+                console.log(err.response)
+              })
+        }
+      });
+    
     }
   },
   watch: {

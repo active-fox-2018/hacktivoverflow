@@ -8,6 +8,7 @@ router.get('/:id', checkQues, Controller.read)
 router.post('/:id', isLogin, checkQues, Controller.create)
 
 // ini answer id
+router.get('/:id/one', isLogin, checkAnswer, authUserAnswer, Controller.findOne)
 router.put('/:id', isLogin, checkAnswer, authUserAnswer, Controller.update)
 router.put('/:id/up', isLogin, checkAnswer, Controller.upvotes)
 router.put('/:id/down', isLogin, checkAnswer, Controller.downvotes)

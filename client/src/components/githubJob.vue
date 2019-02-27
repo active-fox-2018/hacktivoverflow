@@ -3,7 +3,7 @@
             <h5>
                 Jobs you might be interested
             </h5>
-
+          <!-- <img v-if="!jobs" style="height: 80%; width: 100%"  src="http://68.media.tumblr.com/4bd01882ca1df3a02f5940e0ee786292/tumblr_onrdjr4P9r1uf5j8co1_500.gif" alt=""> -->
           <img v-if="!jobs" style="height: 80%; width: 100%" src="http://pluspng.com/img-png/free-gifs-and-png-the-simpsons-animated-gif-320.gif">
           <b-card v-for="(job, i) in jobs" :key="i">
               <div class="row">

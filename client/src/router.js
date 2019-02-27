@@ -35,6 +35,10 @@ export default new Router({
       path: '/editQues/:id',
       name: 'editQues',
       component: () => import('./views/form.vue')
+    }, {
+      path: '/editAns/:id',
+      name: 'editAns',
+      component: () => import('./views/form.vue')
     }
   ]
 })
