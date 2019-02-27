@@ -26,6 +26,7 @@ const monthlySendStats = '0 0 30 * *';
 
 
 cron.schedule('* * * * *', () => {
+  console.log('ini tes per menit cron')
 });
 
 cron.schedule(monthlySendStats, () => {
