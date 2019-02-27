@@ -95,11 +95,9 @@ export default new Vuex.Store({
     async fetchQuestions ({commit}, payload){
       try {
         const fetch = await api.get('/questions')
-        console.log(fetch.data)
         commit('mutateFetchQuestions', fetch.data)
       } catch (error) {
-        // console.log(error.data)
-        // console.log(error.response)
+        console.log(error.response)
       }
     },
     async postQuestion ({commit}, payload) {

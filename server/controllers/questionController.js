@@ -19,6 +19,7 @@ module.exports = {
         Question
             .find({})
             .then(questions => {
+                console.log(questions)
                 res.status(200).json(questions)
             })
             .catch(err => {
@@ -31,7 +32,6 @@ module.exports = {
             .find({userId: ObjectId(req.current_user._id)})
             .populate('userId')
             .then((result) => {
-                // console.log(re)
                 res.status(200).json(result)
             }).catch((err) => {
                 res.status(500).json({msg: 'Internal Server Error'})

@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div v-if="celebration" class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">Fluid jumbotron</h1>
+        <p
+          class="lead"
+        >This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+      </div>
+    </div>
     <div class="container mt-4">
       <div class="row">
         <div class="col-8">
@@ -13,11 +21,15 @@
               </router-link>
             </div>
           </div>
-          <div class="row ">
-            <div class="btn-group container d-flex justify-content-end" role="group" aria-label="Basic example">
+          <div class="row">
+            <div
+              class="btn-group container d-flex justify-content-end"
+              role="group"
+              aria-label="Basic example"
+            >
               <!-- <button type="button" class="button">Left</button>
               <button type="button" class="button">Middle</button>
-              <button type="button" class="button">Right</button> -->
+              <button type="button" class="button">Right</button>-->
             </div>
           </div>
           <hr>
@@ -34,21 +46,42 @@
 </template>
 
 <script>
-import QuestionCard from '@/components/QuestionCard.vue'
-import WatchTags from '@/components/WatchTags.vue'
+import QuestionCard from "@/components/QuestionCard.vue";
+import WatchTags from "@/components/WatchTags.vue";
+import api from '@/api/index.js'
 export default {
+  data () {
+    return {
+      celebration: false
+    }
+  },
   components: {
     QuestionCard,
     WatchTags
   },
-  computed: {
-    questions () {
-      return this.$store.state.questions
+  methods: {
+    checkCelebration () {
+      api({
+        url: '/celebration',
+        method: 'get',
+      })
+      .then(({ data }) => {
+        this.celebration = data.condition
+      }).catch((err) => {
+        console.log(err.response)
+      });
     }
   },
-}
+  computed: {
+    questions() {
+      return this.$store.state.questions;
+    }
+  },
+  created () {
+    this.checkCelebration()
+  }
+};
 </script>
 
 <style>
-
 </style>
