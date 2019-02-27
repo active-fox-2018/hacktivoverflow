@@ -1,6 +1,6 @@
 <template>
   <div class="home row">
-    <div class="col-2 left-bar">
+    <div :class=" status + ' col-2 left-bar' ">
     </div>
     <div class="col ">
       <questionList v-if="$route.name !== 'quesDetail'"/>
@@ -32,7 +32,18 @@ export default {
     this.$store.dispatch('getAllQuestions')
   },
   computed: {
-    ...mapState(['user'])
+    ...mapState(['user', 'status', 'time'])
+  },
+  watch:{ 
+    time (val) {
+      console.log('time berubah ============')
+      console.log(val)
+      if (val > 18) {
+        this.$store.commit('setStatus', 'night')
+      } else {
+         this.$store.commit('setStatus', 'day')
+      }
+    }
   }
 }
 </script>

@@ -9,7 +9,9 @@ export default new Vuex.Store({
   state: {
     user: null,
     allQuestions: [],
-    jobs: null
+    jobs: null,
+    status: 'day',
+    time: new Date().getHours()
   },
   mutations: {
     setUser (state, data) {
@@ -34,6 +36,12 @@ export default new Vuex.Store({
     },
     setJobs (state, payload) {
       state.jobs = payload
+    },
+    setStatus (state, payload) {
+      state.status = payload
+    },
+    updateTime (state) {
+      state.time = new Date().getHours()
     }
   },
   actions: {
@@ -209,6 +217,11 @@ export default new Vuex.Store({
         .catch(err => {
           console.log(err.response)
         })
+    },
+    getTime ({ commit }) {
+      setInterval(() => {
+        commit('updateTime')
+      }, 60000)
     }
   }
 })
