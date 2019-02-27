@@ -19,54 +19,55 @@ import api from '@/api/my.js'
 import alertify from 'alertifyjs'
 
 export default {
-    name: 'editAnswerForm',
-    data () {
-        return {
-            title: '',
-            description: ''
-        }
-    },
-    methods: {
-        getOne () {
-            api({
-                method: 'get',
-                url: `/answers/${this.$route.params.id}/one`,
-                headers: {
-                    token: localStorage.token
-                }
-            })
-                .then(({ data }) => {
-                    this.title = data.title
-                    this.description = data.description
-                })
-                .catch(err => {
-                    console.log(err.response)
-                    alertify.error(`Ooopss something went wrong!`)
-                })
-        },
-        edit() {
-            api({
-                method: 'put',
-                url: `/answers/${this.$route.params.id}`,
-                data: {
-                    title: this.title,
-                    description: this.description
-                },
-                headers: {
-                    token: localStorage.token
-                }
-            })
-                .then(({ data }) => {
-                    this.$router.push({ name: 'quesDetail', params: { id: data.question } })
-                })
-                .catch(err => {
-                    alertify.error(`Oopss something went wrong!`)
-                })
-        }
-    },
-    created () {
-        this.getOne()
+  name: 'editAnswerForm',
+  data () {
+    return {
+      title: '',
+      description: ''
     }
+  },
+  methods: {
+    getOne () {
+      api({
+        method: 'get',
+        url: `/answers/${this.$route.params.id}/one`,
+        headers: {
+          token: localStorage.token
+        }
+      })
+        .then(({ data }) => {
+          this.title = data.title
+          this.description = data.description
+        })
+        .catch(err => {
+          console.log(err.response)
+          alertify.error(`Ooopss something went wrong!`)
+        })
+    },
+    edit () {
+      api({
+        method: 'put',
+        url: `/answers/${this.$route.params.id}`,
+        data: {
+          title: this.title,
+          description: this.description
+        },
+        headers: {
+          token: localStorage.token
+        }
+      })
+        .then(({ data }) => {
+          this.$router.push({ name: 'quesDetail', params: { id: data.question } })
+        })
+        .catch(err => {
+          console.log(err.response)
+          alertify.error(`Oopss something went wrong!`)
+        })
+    }
+  },
+  created () {
+    this.getOne()
+  }
 }
 </script>
 

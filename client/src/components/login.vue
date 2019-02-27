@@ -35,7 +35,7 @@ export default {
         email: this.email,
         password: this.password
       })
-        .then( _ => {
+        .then(_ => {
           if (_ !== true) {
             alertify.error(`${_.data.msg}`)
           } else {

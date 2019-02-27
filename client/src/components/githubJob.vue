@@ -15,7 +15,7 @@
             <b-card-sub-title> <a :href="job.company_url"> {{ job.company }} </a></b-card-sub-title>
             <b-card-text class="crop" v-html="job.description">
             </b-card-text>
-            
+
             <div v-html="job.how_to_apply"></div>
             <b-card-text class="text-right"> {{ job.location }} </b-card-text>
         </b-card>
@@ -23,14 +23,13 @@
 </template>
 
 <script>
-import api from '@/api/my.js'
 import { mapState } from 'vuex'
 export default {
-    name: 'githubJob',
-    computed: {
-        ...mapState(['jobs'])
-    }
-  
+  name: 'githubJob',
+  computed: {
+    ...mapState(['jobs'])
+  }
+
 }
 </script>
 

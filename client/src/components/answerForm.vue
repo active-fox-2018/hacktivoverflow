@@ -17,88 +17,85 @@
 <script>
 import api from '@/api/my.js'
 import alertify from 'alertifyjs'
-import swal from 'sweetalert'
-import { mapState } from 'vuex'
 
 export default {
-    name: 'answerForm',
-    data () {
-        return {
-            ques: {},
-            answers: 0,
-            description: '',
-            title: ''
-        }
-    },
-    methods: {
-        upAnsw (id) {
-            api({
-                method: 'put',
-                url: `/answers/${id}/up`,
-                headers: {
-                    token: localStorage.token
-                }
-            })
-                .then(({ data }) => {
-                    this.getAnswer()
-                })
-                .catch(err => {
-                    console.log(err.response)
-                    if (err.response.data.msg) {
-                        alertify.error(`${err.response.data.msg}`)
-                    } else {
-                        alertify.error(`Oopss something went wrong!`)
-                    }
-                })
-        },
-        downAnsw (id) {
-            api({
-                method: 'put',
-                url: `/answers/${id}/down`,
-                headers: {
-                    token: localStorage.token
-                }
-            })
-                .then(({ data }) => {
-                    this.getAnswer()
-                })
-                .catch(err => {
-                    console.log(err.response)
-                    if (err.response.data.msg) {
-                        alertify.error(`${err.response.data.msg}`)
-                    } else {
-                        alertify.error(`Oopss something went wrong!`)
-                    }
-                })
-        },
-        answer () {
-            api({
-                method: 'post',
-                url: `/answers/${this.$route.params.id}`,
-                headers: {
-                    token: localStorage.token
-                },
-                data: {
-                    title: this.title,
-                    description: this.description
-                }
-            })
-                .then(({ data }) => {
-                    this.title = ''
-                    this.description = ''
-                    // this.answers.unshift(data)
-                    this.$emit('answer', data)
-                })
-                .catch(err => {
-                    console.log(err.response)
-                    if (err.response.data.msg) {
-                        alertify.error(`${err.response.data.msg}`)
-                    } else {
-                        alertify.error(`Oopss something went wrong!`)
-                    }
-                })
-        },
+  name: 'answerForm',
+  data () {
+    return {
+      ques: {},
+      answers: 0,
+      description: '',
+      title: ''
     }
+  },
+  methods: {
+    upAnsw (id) {
+      api({
+        method: 'put',
+        url: `/answers/${id}/up`,
+        headers: {
+          token: localStorage.token
+        }
+      })
+        .then(({ data }) => {
+          this.getAnswer()
+        })
+        .catch(err => {
+          console.log(err.response)
+          if (err.response.data.msg) {
+            alertify.error(`${err.response.data.msg}`)
+          } else {
+            alertify.error(`Oopss something went wrong!`)
+          }
+        })
+    },
+    downAnsw (id) {
+      api({
+        method: 'put',
+        url: `/answers/${id}/down`,
+        headers: {
+          token: localStorage.token
+        }
+      })
+        .then(({ data }) => {
+          this.getAnswer()
+        })
+        .catch(err => {
+          console.log(err.response)
+          if (err.response.data.msg) {
+            alertify.error(`${err.response.data.msg}`)
+          } else {
+            alertify.error(`Oopss something went wrong!`)
+          }
+        })
+    },
+    answer () {
+      api({
+        method: 'post',
+        url: `/answers/${this.$route.params.id}`,
+        headers: {
+          token: localStorage.token
+        },
+        data: {
+          title: this.title,
+          description: this.description
+        }
+      })
+        .then(({ data }) => {
+          this.title = ''
+          this.description = ''
+          this.$emit('answer', data)
+        })
+        .catch(err => {
+          console.log(err.response)
+          if (err.response.data.msg) {
+            alertify.error(`${err.response.data.msg}`)
+          } else {
+            alertify.error(`Oopss something went wrong!`)
+          }
+        })
+    }
+  }
 }
 </script>
 

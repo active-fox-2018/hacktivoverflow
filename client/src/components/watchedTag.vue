@@ -43,13 +43,13 @@ export default {
         tags = this.user.tags
         tags.push(this.temp)
       }
-      this.$store.dispatch('updateUser',tags)
+      this.$store.dispatch('updateUser', tags)
       this.temp = ''
     },
     remove (i) {
       let tags = this.user.tags
       tags.splice(i, 1)
-      this.$store.dispatch('updateUser',tags)
+      this.$store.dispatch('updateUser', tags)
     },
     filter (query) {
       this.$store.commit('filterQues', query)

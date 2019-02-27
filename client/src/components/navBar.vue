@@ -53,13 +53,13 @@ export default {
     },
     filter () {
       if (this.search === '') {
-          this.$store.dispatch('getAllQuestions')
-        } else {
-          this.$store.commit('filterQues', this.search)
+        this.$store.dispatch('getAllQuestions')
+      } else {
+        this.$store.commit('filterQues', this.search)
       }
     },
     home () {
-      this.$router.push({ name: 'home' }); 
+      this.$router.push({ name: 'home' })
       this.$store.dispatch('getAllQuestions')
     }
   }

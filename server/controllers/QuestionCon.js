@@ -64,17 +64,9 @@ class Controller {
             let title = req.body.title
             let description = req.body.description
 
-            // if (String(req.currentQuestion.user._id) !== String(req.currentUser._id)) {
-            //     title = req.currentQuestion.title
-            //     description = req.currentQuestion.description
-            //     tags = req.currentQuestion.tags
-            // }
-
             let question = {
                 title,
                 description,
-                // upvotes: req.body.upvotes,
-                // downvotes: req.body.downvotes,
                 tags
             }
             req.currentQuestion.set(question)

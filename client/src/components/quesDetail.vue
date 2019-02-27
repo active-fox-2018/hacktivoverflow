@@ -181,47 +181,47 @@ export default {
     },
     deleteQues () {
       swal({
-        title: "Are you sure?",
-        text: "Once deleted, you will not be able to recover this question",
-        icon: "warning",
+        title: 'Are you sure?',
+        text: 'Once deleted, you will not be able to recover this question',
+        icon: 'warning',
         buttons: true,
-        dangerMode: true,
+        dangerMode: true
       })
-      .then((willDelete) => {
-        if (willDelete) {
-          api({
-            method: 'delete',
-            url: `/questions/${this.$route.params.id}`,
-            headers: {
-              token: localStorage.token
-            }
-          })
-            .then(data => {
-              this.$router.push({ name: 'home'})
-            })
-            .catch(err => {
-              if (err.response.data.msg) {
-                alertify.error(`${err.response.data.msg}`)
-              } else {
-                alertify.error(`Ooopss something went wrong!`)
+        .then((willDelete) => {
+          if (willDelete) {
+            api({
+              method: 'delete',
+              url: `/questions/${this.$route.params.id}`,
+              headers: {
+                token: localStorage.token
               }
             })
-        }
-      })
+              .then(data => {
+                this.$router.push({ name: 'home' })
+              })
+              .catch(err => {
+                if (err.response.data.msg) {
+                  alertify.error(`${err.response.data.msg}`)
+                } else {
+                  alertify.error(`Ooopss something went wrong!`)
+                }
+              })
+          }
+        })
     },
     pushAnsw (data) {
       this.answers.unshift(data)
     },
     deleteAns (id, i) {
       swal({
-        title: "Are you sure?",
-        text: "Once deleted, you will not be able to recover this imaginary file!",
-        icon: "warning",
+        title: 'Are you sure?',
+        text: 'Once deleted, you will not be able to recover this imaginary file!',
+        icon: 'warning',
         buttons: true,
-        dangerMode: true,
+        dangerMode: true
       })
-      .then((willDelete) => {
-        if (willDelete) {
+        .then((willDelete) => {
+          if (willDelete) {
             api({
               method: 'delete',
               url: `/answers/${id}`,
@@ -236,9 +236,8 @@ export default {
               .catch(err => {
                 console.log(err.response)
               })
-        }
-      });
-    
+          }
+        })
     }
   },
   watch: {

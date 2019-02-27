@@ -48,11 +48,11 @@ export default {
   methods: {
     edit () {
       this.$store.dispatch('editQuestion', { data: {
-            title: this.title,
-            description: this.description,
-            tags: this.tags,
-        },
-        _id: this.id
+        title: this.title,
+        description: this.description,
+        tags: this.tags
+      },
+      _id: this.id
       })
     },
     pushTag () {
@@ -71,10 +71,10 @@ export default {
             this.tags = _.tags
           }
         })
-    },
+    }
   },
   created () {
-      this.fetch()
+    this.fetch()
   }
 }
 </script>
