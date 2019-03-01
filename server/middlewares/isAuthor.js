@@ -10,8 +10,9 @@ function isAuthor(req,res,next) {
         Posting
             .findOne({ _id : req.params.id })
             .then(project => {
+                console.log(project);
                 
-                if(project.author == req.user) {
+                if(project.user == req.user) {
                     next()
                 } else {
                     res.status(402).json({message : 'not authorize'})
