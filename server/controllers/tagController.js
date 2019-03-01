@@ -1,19 +1,14 @@
 const Tag = require('../models/tag')
 
 module.exports = {
-    create(req,res) {
-        req.body.tags.forEach(el => {
-            Tag
-                .findOne({
-                    name : el
-                })
-                .then(data => {
-                    if(data) {
-
-                    }
-                })
-        });
-        
-            
+    findAll(req,res) {
+        Tag
+            .find()
+            .then(tags => {
+                res.status(200).json(tags)
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })
     }
 }

@@ -39,7 +39,7 @@ const userSchema = new Schema({
         type : String,
         required : true
     },
-    posting : [{type: Schema.Types.ObjectId, ref: 'Posting'}]
+    // posting : [{type: Schema.Types.ObjectId, ref: 'Posting'}]
 })
 
 

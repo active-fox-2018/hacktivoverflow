@@ -50,9 +50,6 @@ export default {
   },
   methods: {
     createPost() {
-      // console.log(this.tags);
-      
-      // console.log;
       let newPosting = {
         title: this.title,
         description: this.description,

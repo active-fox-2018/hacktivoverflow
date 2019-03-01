@@ -1,5 +1,5 @@
 <template>
-  <div id="mainpage" class="col-12">
+  <div id="search" class="col-12">
     <ul v-for="post,index in allPostings">
       <div class="card">
         <div class="card-header">
@@ -9,24 +9,12 @@
           <p class="card-title">
             <a href @click.prevent="selectedPosting(post, index)">{{post.title}}</a>
           </p>
-          <p style="font-size: 15px;">{{post.upvotes.length - post.downvotes.length }} vote(s) {{post.answers.length}} answer(s) <button
-              class="btn btn-primary"
-              @click.prevent="addVote(post, index, 'upvotes')"
-              style="margin:5px"
-            >
-              <i class="fas fa-thumbs-up"></i>
-            </button>
-            <button
-              class="btn btn-primary"
-              @click.prevent="addVote(post, index, 'downvotes')"
-              style="margin:5px"
-            >
-              <i class="fas fa-thumbs-down"></i>
-            </button></p>
         </div>
-        <div >
+        <div>
           <ul v-for="tag in post.tags" class="container" style="display:inline">
-            <li style="display:inline; "><a href="" @click.prevent="search(tag.name)">{{tag.name}} </a></li>
+            <li style="display:inline; ">
+              <a href @click.prevent="search(tag.name)">{{tag.name}}</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -37,14 +25,21 @@
 <script>
 import axios from "@/api/server";
 export default {
-  name: "mainpage",
+  name: "search",
   data() {
     return {
-      
+      allPostings: "",
+      querySearch: this.$route.params.query
+    };
+  },
+  watch : {
+    '$route.params.query'(v) {
+      this.querySearch = v
+      this.searchedTag();
     }
   },
   computed: {
-    allPostings() {
+    allData() {
       return this.$store.state.allPostings;
     },
     currentUser() {
@@ -52,17 +47,25 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("getAllPostings");
+    this.querySearch = this.$route.params.query;
+    this.searchedTag();
   },
   methods: {
+    search(tag) {
+      this.$router.push({ path: `/search/${tag}` });
+    },
+    searchedTag() {
+      let regex = new RegExp(".*" + this.querySearch + ".*", "i");
+      let array = [];
+      let data = this.allData.filter(post =>
+        post.tags.every(c => c.name.match(regex))
+      );
+      this.allPostings = data;
+    },
     selectedPosting(posting, index) {
       this.$router.push({
-        path: `posting/${posting._id}/${index}`
+        path: `/posting/${posting._id}/${index}`
       });
-    },
-
-    search(tag) {
-      this.$router.push({path :`/search/${tag}`})
     },
     addVote(post, index, command) {
       let currentUser = localStorage.getItem("user");

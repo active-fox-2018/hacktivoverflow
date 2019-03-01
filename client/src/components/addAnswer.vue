@@ -52,14 +52,12 @@ export default {
           }
         )
         .then(({ data }) => {
-            console.log(data);
             data.data.user = data.user
           this.$emit('newdata', data.data)
           swal("answer posted");
         })
         .catch(({ response }) => {
           swal(response.data.message);
-          // console.log(response);
         });
     }
   }

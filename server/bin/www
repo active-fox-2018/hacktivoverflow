@@ -102,25 +102,25 @@ function onListening() {
 
 let schedule = '* * * * *'
 
-cron.schedule(schedule, () => {
+// cron.schedule(schedule, () => {
       
-      User
-        .find()
-        .then(users => {
-          users.forEach(user => {
-            queue.create('send-email', {
-              email : user.email
-            }).save()
-          })
-        })
-        .catch(err => {
-          console.log(err);
+//       User
+//         .find()
+//         .then(users => {
+//           users.forEach(user => {
+//             queue.create('send-email', {
+//               email : user.email
+//             }).save()
+//           })
+//         })
+//         .catch(err => {
+//           console.log(err);
           
-        })
-});
+//         })
+// });
 
-queue.process('send-email', (job,done) => {
-  console.log(job.data);
-  sendEmail(job.data.email)
+// queue.process('send-email', (job,done) => {
+//   console.log(job.data);
+//   sendEmail(job.data.email)
   
-})
+// })

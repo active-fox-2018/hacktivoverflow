@@ -101,7 +101,6 @@ export default {
           swal("Cancelled", "Your posting is safe :)", "error");
         }
       })
-      // swal('are you sure')
     }
   }
 };

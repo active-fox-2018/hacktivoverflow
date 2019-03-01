@@ -42,7 +42,12 @@ export default new Router({
           path : 'posting/:id/:index',
           name : 'posting',
           component : () => import(/* webpackChunkName: "about" */ './components/posting' )
-         }
+        },
+        {
+          path : 'search/:query',
+          name : 'search',
+          component : () => import(/* webpackChunkName: "about" */ './components/searchpage')
+        }
       ]
     },
     {

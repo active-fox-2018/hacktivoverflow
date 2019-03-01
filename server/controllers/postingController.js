@@ -2,22 +2,33 @@ const Postings = require('../models/postings')
 
 module.exports = {
     create(req, res) {
+        console.log(req.tags,"==========inside controller");
+        
         Postings
             .create({
                 title: req.body.title,
                 description: req.body.description,
-                user: req.user
+                user: req.user,
+                tags: req.tags.map(e => e._id)
             })
             .then(posting => {
-                res.status(201).json(posting)
+               return Postings
+                    .findById(posting._id)
+                    .populate('tags')
+                    .populate('user')
+                    .then(data => {
+                        console.log(data);
+                        
+                        res.status(201).json(data)
+                    })
             })
             .catch(err => {
+                console.log(err);        
                 res.status(500).json(err)
             })
     },
 
-    getAll(req, res) {
-       
+    getAll(req, res) {      
         Postings
             .find({})
             .populate('user')
@@ -27,6 +38,7 @@ module.exports = {
                     path: 'user'
                 }
             })
+            .populate('tags')
             .then(postings => {
                 res.status(200).json(postings)
             })

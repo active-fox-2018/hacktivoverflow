@@ -23,15 +23,15 @@ module.exports = {
                         }, { new: true })
                     .then(data => {
                         console.log(req.author);
-                        
+
                         newAnswer.user = req.author
                         // console.log(data);
-                        
+
                         // console.log(newAnswer);
                         console.log(newAnswer.user);
-                        
 
-                        res.status(201).json({data : newAnswer, user : req.author})
+
+                        res.status(201).json({ data: newAnswer, user: req.author })
                     })
             })
             .catch(err => {
@@ -61,24 +61,31 @@ module.exports = {
             },
                 action, { new: true })
             .then(data => {
-                res.status(200).json(data)
+                return Answers
+                    .findOne({
+                        _id: data._id
+                    })
+                    .populate('user')
+                    .then(data => {
+                        res.status(200).json(data)
+                    })
             })
             .catch(err => {
                 res.status(500).json(err)
             })
     },
 
-    edit(req,res) {
+    edit(req, res) {
         Answers
             .findOneAndUpdate({
-                _id : req.params.id
+                _id: req.params.id
             }, {
-                $set : req.body
-            }, {new : true})
+                    $set: req.body
+                }, { new: true })
             .then(data => {
                 console.log(data);
-                
-                res.status(201).json({data : data, user : req.author})
+
+                res.status(201).json({ data: data, user: req.author })
             })
             .catch(err => {
                 res.status(500).json(err)

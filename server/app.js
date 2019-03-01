@@ -19,7 +19,8 @@ db.once('open', function () {
 
 const postingRouter = require('./routes/postings');
 const usersRouter = require('./routes/users');
-const answerRouter = require('./routes/answer')
+const answerRouter = require('./routes/answer');
+const tagRouter = require('./routes/tag')
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', postingRouter);
 app.use('/users', usersRouter);
 app.use('/answers', answerRouter);
+app.use('/tags', tagRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

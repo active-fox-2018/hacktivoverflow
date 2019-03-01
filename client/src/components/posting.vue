@@ -35,7 +35,7 @@
                   <i class="fas fa-thumbs-down"></i>
                 </button>
                 <button
-                  v-if="user == answer.user._id"
+                  v-if="user == answer.user._id || user == answer.user"
                   class="btn btn-primary"
                   style="margin:5px"
                   type="button"
@@ -76,7 +76,6 @@ export default {
       data: this.$route.params.id,
       index: this.$route.params.index,
       user: localStorage.getItem("user")
-      // selectedPosting : ''
     };
   },
   computed: {

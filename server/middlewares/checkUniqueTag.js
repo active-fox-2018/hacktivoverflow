@@ -1,76 +1,59 @@
-const Tag =  require('../models/tag')
+const Tag = require('../models/tag')
 
 
-// function cekUniqTag(req,res,next) {
-//     // let promises = []
-//     Tag
-//         .find({})
-//         .then(allTags => {
-//             let promises  = []
-//             allTags = allTags.map(e => {
-//                return e.name
-//             })
-//             console.log(allTags);
+function cekUniqTag(req, res, next) {
+    let tagId = []
+    let promises = []
+    req.body.tags.forEach(e => {
+        promises.push(Tag.findOne({ name: e.text }))
+    });
+    Promise.all(promises)
+        .then(allTags => {         
+            let newTags = req.body.tags.map(function(e) {
+               return  e.text
+            })
+            let existTag = allTags.filter(function(e) {
+                if(e != null) {
+                    return e
+                }
+            })      
+            tagId = allTags.filter(function(e) { return e != null})
+            console.log(tagId, "diawal");
             
-//             req.body.tags.forEach(e => {
-//                 if(allTags.indexOf(e.text) === -1) {
-//                     promises.push(Tag.create({ name : e.text}))
-//                 }
-//             });
-//             console.log(promises,"=======inside midleware");
-            
-//             Promise.all(promises)
-//                 .then(data => {
-//                     console.log(data)
-//                     next();
-                    
-//                 })
-//         })
-//         .catch(err=> {
-//             next()
-//         })
-
-
-    // req.body.tags.forEach(e => {
-    //     console.log(e.text);
-        
-    //     promises.push(Tag.findOne({ name : e.text}))
-    // });
-
-    // Promise.all(promises)
-    // .then(data => {
-    //     req.body.tags
-    //     console.log(data);
-    //     next()
-    // })
-    // .catch(err => {
-    //     console.log(err,"=========");
-    //     next()
-    // })
-    // Tag
-    //     .find({})
-    //     .then(tags => {
-    //         // if(tags.length == 0) {
-    //         //     req.tagToInput = req.body.tags
-    //         //     console.log(req.tagToInput);
-    //         //     next()
-    //         // } else {
-    //             let tagToInput = []
-    //             // for(let i = 0 ; i < tags.length; i++) {
-    //             //     if(req.body.tags.indexOf(tags[i].name) !== -1) {
-    //             //         tagToInput.push(tags[i])
-    //             //     }
-    //             // }
-    //             req.tagToInput = tagToInput
-    //             console.log(req.tagToInput);
+            let tagToCreate = []
+            if(existTag.length > 0) {
+                  newTags.forEach(e => {
+                      let cek = true
+                      existTag.forEach( el=> {
+                          if(e === el.name) {
+                            cek = false
+                          }
+                      })
+                      if(cek) {
+                          tagToCreate.push(e)
+                      }
+                  })
+            } else {           
+                tagToCreate = newTags
+            }
+            let promisesCreate = []
+            if(tagToCreate) {
+                tagToCreate.forEach(tag => {
+                    promisesCreate.push(Tag.create({ name: tag }))
+                })
+            } 
+            return Promise.all(promisesCreate)
+            .then(data => {
+                let tagToInput = tagId.concat(data)
+                req.tags = tagToInput
+                next()
                 
-    //             next()
-    //         // }
-    //     })
-    //     .catch(err => {
-    //         res.status(500).json('intenal server error')
-    //         console.log(err);         
-    //     })
-// }
+            })
+        })
+        .catch(err => {
+            console.log(err, "=========");
+            next()
+        })
+}
 
-// module.exports = cekUniqTag
+module.exports = cekUniqTag

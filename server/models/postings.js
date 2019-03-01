@@ -13,7 +13,8 @@ const postingSchema = new Schema({
     },
     upvotes : [{type: Schema.Types.ObjectId, ref: 'Users'}],
     downvotes : [{type: Schema.Types.ObjectId, ref: 'Users'}],
-    answers : [{type: Schema.Types.ObjectId, ref: 'Answers'}]
+    answers : [{type: Schema.Types.ObjectId, ref: 'Answers'}],
+    tags : [{type: Schema.Types.ObjectId, ref: 'Tags'}]
 })
 
 const Posting = mongoose.model('Posting', postingSchema)

@@ -78,12 +78,10 @@ export default {
           }
         })
         .then(data => {
-            swal('data updated')
-            // console.log(data);         
+            swal('data updated')        
         })
         .catch(err => {
             swal('oops, something bad happen')
-            // console.log(err);        
         })
     }
   }

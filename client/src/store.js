@@ -10,22 +10,23 @@ import axios from '@/api/server'
 export default new Vuex.Store({
   state: {
     allPostings: [],
+    // searchByTag: '',
     // selectedPosting: '',
     currentUser: '',
-    isLogin : [false]
+    isLogin: [false]
   },
   mutations: {
-    cekLogin(state,payload) {
-      if(localStorage.getItem('token')) {
-        state.isLogin.splice(0,1,true)
+    cekLogin(state, payload) {
+      if (localStorage.getItem('token')) {
+        state.isLogin.splice(0, 1, true)
       }
     },
     login(state) {
-      state.isLogin.splice(0,1,true)
+      state.isLogin.splice(0, 1, true)
       router.push({ path: '/' })
     },
     logout(state) {
-      state.isLogin.splice(0,1, false)
+      state.isLogin.splice(0, 1, false)
       router.push({ path: '/' })
     },
     createPost(state, payload) {
@@ -40,7 +41,7 @@ export default new Vuex.Store({
       router.push({ path: '/posting' })
     },
     addVote(state, payload) {
-      const newData = { ...state.allPostings[payload.index], upvotes: payload.data.upvotes, downvotes: payload.data.downvotes};
+      const newData = { ...state.allPostings[payload.index], upvotes: payload.data.upvotes, downvotes: payload.data.downvotes };
       state.allPostings.splice(payload.index, 1, newData);
       router.push('/')
     },
@@ -52,6 +53,9 @@ export default new Vuex.Store({
     updateVoteInQuestion(state, payload) {
       state.allPostings[payload.postingIndex].answers.splice(payload.index, 1, payload.data)
       router.push(`/posting/${payload.postingId}/${payload.postingIndex}`)
+    },
+    searchByTag(state, payload) {
+      router.push(`/search/${payload}`)
     }
   },
   actions: {
@@ -62,7 +66,7 @@ export default new Vuex.Store({
           context.commit('getAllPostings', data)
         })
         .catch(err => {
-          console.log(err);
+          swal('our server is on troble, please refresh your browser')
         })
     },
     register(context, payload) {
@@ -72,7 +76,7 @@ export default new Vuex.Store({
           router.push('/login')
         })
         .catch(err => {
-          console.error(err)
+          swal('opps, we have problem, pleaser register again')
         })
     },
     login(context, payload) {
@@ -83,9 +87,8 @@ export default new Vuex.Store({
           localStorage.setItem('user', data.user._id)
           context.commit('login', data.user._id)
         })
-        .catch(({response}) => {
+        .catch(({ response }) => {
           swal(response.data.error)
-          console.log(JSON.stringify(response.data));
         })
     },
     createPost(context, payload) {
@@ -98,17 +101,18 @@ export default new Vuex.Store({
         .then(({ data }) => {
           context.commit('createPost', data)
         })
-        .catch(({response}) => {
+        .catch(({ response }) => {
           swal(response.data.message)
-          console.log(JSON.stringify(response.data.message));
         })
     },
     addVote(context, payload) {
       axios
         .patch(
           `/${payload.model}/${payload.id}`,
-          { command: payload.command,
-            process : '$push' },
+          {
+            command: payload.command,
+            process: '$push'
+          },
           {
             headers: {
               token: localStorage.getItem("token")
@@ -124,7 +128,6 @@ export default new Vuex.Store({
         })
         .catch(err => {
           swal('you have login first')
-          console.log(err);
         });
     },
     removeVote(context, payload) {
@@ -132,8 +135,10 @@ export default new Vuex.Store({
       axios
         .patch(
           `/${payload.model}/${payload.id}`,
-          { command: payload.command,
-          process : '$pull' },
+          {
+            command: payload.command,
+            process: '$pull'
+          },
           {
             headers: {
               token: localStorage.getItem('token')
@@ -149,8 +154,6 @@ export default new Vuex.Store({
         })
         .catch(err => {
           swal('you have login first')
-          console.log(err);
-
         })
     },
   }

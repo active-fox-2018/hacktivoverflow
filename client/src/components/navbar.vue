@@ -1,8 +1,8 @@
 <template>
   <nav class="navbar navbar-success bg-success">
     <router-link class="navbar-brand" to="/">Hacktiv-Overflow</router-link>
-    <form class="form-inline">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <form class="form-inline" @submit.prevent="searchTag">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search by tag" aria-label="Search" v-model="tag"> 
       <button class="btn btn-light my-2 my-sm-0" type="submit">SEARCH</button>
     </form>
     <div>
@@ -13,11 +13,15 @@
   </nav>
 </template>
 <script>
+import search from '@/components/searchpage'
 export default {
+    components : {
+      search 
+    },
     name : 'navbar',
     data () {
       return {
-        // isLogin : false
+        tag : ''
       }
     },
     created () {
@@ -33,6 +37,9 @@ export default {
         localStorage.removeItem('token')
         localStorage.removeItem('user')
         this.$store.commit('logout')
+      },
+      searchTag() {
+        this.$router.push({path :`/search/${this.tag}`})
       }
     }
 }
