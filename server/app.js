@@ -11,7 +11,8 @@ var app = express();
 
 app.use(cors())
 
-const url = `mongodb://localhost:27017/hacktivoverflow`
+// const url = `mongodb://localhost:27017/hacktivoverflow`
+const url = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@ds051110.mlab.com:51110/the-overflow`
 mongoose.connect(url, { useNewUrlParser: true })
 .then(()=>{console.log("connected")},
   err =>{console.log("err",err);}
