@@ -54,7 +54,20 @@ class QuestionController {
 
 
   static getAllTags(req, res) {
-
+    Question.find({}).select('Tags')
+    .then(questions => {
+      let Unique = {}
+      questions.forEach(question => {
+        question.Tags.forEach(tag => {
+          Unique[tag] = 0
+        })
+      })
+      res.status(200).json({tags : Object.keys(Unique)})
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({ err : err.message })
+    })
   }
 
   static findOne(req, res) {

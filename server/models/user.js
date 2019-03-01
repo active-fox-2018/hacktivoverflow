@@ -33,7 +33,7 @@ const userSchema = new Schema({
   password : {
     type: String,
     minlength : [5, 'password minimal 5 karakter'],
-    maxlength : [20, 'password minimal 20 karakter']
+    maxlength : [20, 'password maximal 20 karakter']
   },
   tags : [{ type : Schema.Types.String }],
 })

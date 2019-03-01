@@ -5,9 +5,17 @@ const Answer = require('../models/answer')
 const kue = require('kue')
 const queue = kue.createQueue()
 
-function procesQueue() {
-
-
+function procesQueue(title, data) {
+  return new Promise((resolve, reject) => {
+    queue.create(title, data)
+        .save((err) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve()
+          }
+        })
+  })
 }
 
 function generateMail () {
@@ -23,6 +31,8 @@ function generateMail () {
   let email = []
   let questionsUsers = []
   let answerUsers = []
+  let mailresult = []
+  let procesQueueLists = []
   User.find({})
   .then(users => {
     users.forEach(user => {
@@ -71,11 +81,10 @@ function generateMail () {
           mailOptions.text = `It seems you've been busy. it's okay. you can visit us on the weekend. Keep going Keep Going. Ask and answer more.`
         }
         mailOptions.to = email[i]
-        
-        // console.log(mailOptions)
-        queue.create('weekly-report', mailOptions).save()
+        procesQueueLists.push(procesQueue('weekly-report', {...mailOptions}))
+        // console.log(mailOptions, ': MAIL OPTION')
     }
-    // procesQueue()
+    return Promise.all(procesQueueLists)
   })
   .catch(err => {
     console.log(err) 

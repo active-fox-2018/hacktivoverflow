@@ -4,7 +4,7 @@ const nodemailer = require('nodemailer')
 const smtpTransport = require('nodemailer-smtp-transport')
 const cors = require('cors')
 const routes = require('./routes/index')
-const weeklyReport = require('./helpers/nodemailer')
+const weeklyReport = require('./helpers/weeklyReport')
 const cron = require('node-cron')
 const kue = require('kue')
 const queue = kue.createQueue()
@@ -26,10 +26,11 @@ app.use(express.urlencoded({extended : false}))
 app.use(express.json())
 app.use(cors())
 
-cron.schedule('* * * * 5', () => {
-  console.log('====')
+cron.schedule(everyFriday, () => {
+  console.log('===')
   weeklyReport()
 })
+
 
 queue.process('weekly-report', function(job, done){
   let transporter = nodemailer.createTransport(smtpTransport({
@@ -40,14 +41,8 @@ queue.process('weekly-report', function(job, done){
       pass: process.env.emailPass
       }
     }))
-    
-    var mailOptions = {
-      from: 'hackverflowmaria@gmail.com',
-      to: '',
-      subject: 'Weekly Report',
-      text: ''
-      }
-      console.log(job.data)
+      console.log(job.data, 'JOB DATA')
+      done()
     // transporter.sendMail(job.data, function(error, info){
     //   if (error) {
     //     console.log(error)
@@ -59,6 +54,7 @@ queue.process('weekly-report', function(job, done){
     // })
 })
 
+kue.app.listen(3001)
 app.use('/', routes)
 app.listen(port, function() {
   console.log(`this is port ${port}...`)

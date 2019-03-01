@@ -34,7 +34,9 @@
           </v-flex>
         </v-card>
       </v-flex>
-      <tagbox v-if="!$store.login"/>
+      <v-flex xs12 md12 lg4 >
+      <tagbox v-if="$store.state.login" @watchTag="watchTag"/>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -51,7 +53,6 @@ export default {
   },
   data () {
     return {
-
     }
   },
   methods: {
@@ -66,6 +67,9 @@ export default {
       .catch(err => {
         console.log(err)
       })
+    },
+    watchTag(payload) {
+      this.searchTag(payload)
     }
   }
 }

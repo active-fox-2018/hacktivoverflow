@@ -4,6 +4,7 @@ const QuestionController = require('../controllers/QuestionController')
 const AnswerController = require('../controllers/AnswerController')
 const authentication = require('../middlewares/authentication')
 
+router.get('/tags', QuestionController.getAllTags)
 router.post('/register', UserController.register)
 router.post('/login', UserController.login)
 router.get('/search', QuestionController.findWhere)
@@ -11,6 +12,8 @@ router.get('/questions', QuestionController.findAll)
 router.get('/questions/:id', QuestionController.findOne)
 router.get('/answers/:id', AnswerController.findOne)
 router.use(authentication)
+router.get('/users', UserController.findOne)
+router.patch('/users', UserController.changeTags)
 router.post('/authentication', function(req, res) {
   if(req.userAuthentic._id) {
     res.status(200).json({id: req.userAuthentic._id})
