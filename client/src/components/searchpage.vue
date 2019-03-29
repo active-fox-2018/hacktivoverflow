@@ -32,12 +32,12 @@ export default {
       querySearch: this.$route.params.query
     };
   },
-  watch : {
-    '$route.params.query'(v) {
-      this.querySearch = v
-      this.searchedTag();
-    }
-  },
+    watch : {
+      '$route.params.query'(v) {
+        this.querySearch = v
+        this.searchedTag();
+      }
+    },
   computed: {
     allData() {
       return this.$store.state.allPostings;
